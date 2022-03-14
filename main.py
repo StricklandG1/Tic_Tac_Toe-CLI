@@ -1,36 +1,6 @@
 import time
 
 
-def board_win(board):
-    # Horizontal win conditions
-    if board[0][0] == board[0][1] and board[0][0] == board[0][2] and board[0][0] != '-':
-        return True, board[0][0]
-    if board[1][0] == board[1][1] and board[1][0] == board[1][2] and board[1][0] != '-':
-        return True, board[1][0]
-    if board[2][0] == board[2][1] and board[2][0] == board[2][2] and board[2][0] != '-':
-        return True, board[2][0]
-
-    # Vertical win conditions
-    if board[0][0] == board[1][0] and board[0][0] == board[2][0] and board[0][0] != '-':
-        return True, board[0][0]
-    if board[0][1] == board[1][1] and board[0][1] == board[2][1] and board[0][1] != '-':
-        return True, board[0][1]
-    if board[0][2] == board[1][2] and board[0][2] == board[2][2] and board[2][0] != '-':
-        return True, board[0][2]
-
-    # Diagonal win conditions
-    if board[0][0] == board[1][1] and board[0][0] == board[2][2] and board[0][0] != '-':
-        return True, board[0][0]
-    if board[2][0] == board[1][1] and board[2][0] == board[0][2] and board[2][0] != '-':
-        return True, board[2][0]
-
-    for row in board:
-        for elem in row:
-            if elem == '-':
-                return False, '-'
-    return True, 'Tie'
-
-
 class Node:
 
     def __init__(self, board, prev_player, value):
