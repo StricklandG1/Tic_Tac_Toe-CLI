@@ -133,13 +133,40 @@ class Tree:
             node.value = node.find_max()
 
 
+def user_input(board):
+    valid = False
+    while not valid:
+        row = int(input("Enter the row: "))
+        col = int(input("Enter the col: "))
+        valid_row = row > 0 and row < 4
+        valid_col = col > 0 and col < 4
+        if valid_row and valid_col and board[row - 1][col - 1] == '-':
+            board[row - 1][col - 1] = 'X'
+            valid = True
+        else:
+            print("Invalid move, please try again\n")
+
+
+def player_move(current_node, board):
+    user_input(board)
+    found = False
+    i = 0
+    length = len(current_node.children)
+    while (not found) and i < length:
+        if current_node.children[i].board == board:
+            found = True
+            current_node = current_node.children[i]
+            print(current_node)
+        else:
+            i += 1
+    return current_node
+
+
 def play_game():
     game_board = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
 
     # process first move and build tree
-    row = input("Enter the row: ")
-    col = input("Enter the col: ")
-    game_board[int(row) - 1][int(col) - 1] = 'X'
+    user_input(game_board)
 
     root = Node(game_board, 'X', 0)
     game_tree = Tree(root)
@@ -171,21 +198,10 @@ def play_game():
         print(current)
 
         done, winner = current.is_win()
-        if not done:
-            row = input("Enter the row: ")
-            col = input("Enter the col: ")
-            game_board[int(row) - 1][int(col) - 1] = "X"
 
-            found = False
-            i = 0
-            length = len(current.children)
-            while (not found) and i < length:
-                if current.children[i].board == game_board:
-                    found = True
-                    current = current.children[i]
-                    print(current)
-                else:
-                    i += 1
+        if not done:
+            # Get player input and determine which branch in the tree the player wishes to traverse
+            current = player_move(current, game_board)
 
         done, winner = current.is_win()
     if winner == 'Tie':
