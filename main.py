@@ -69,6 +69,10 @@ class Node:
         for node in self.children:
             if node.value < min_val:
                 min_val = node.value
+
+        # prune values that AI wont use (can't prune for max as players can play as poorly as they want)
+        new_list = [x for x in self.children if x.value == min_val]
+        self.children = new_list
         return min_val
 
     def find_max(self):
